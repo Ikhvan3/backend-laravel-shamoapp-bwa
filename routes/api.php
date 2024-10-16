@@ -4,7 +4,6 @@ use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\ProductCategoryController;
 use App\Http\Controllers\API\TransactionController;
 use App\Http\Controllers\API\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,14 +22,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('products', [ProductController::class, 'all']);
 Route::get('categories', [ProductCategoryController::class, 'all']);
 
+Route::get('/test', function () {
+    return response()->json(['message' => 'API is working']);
+});
+
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
 
-Route::middleware('auth:sanctum')->group(function (){
-    route::get('user', [UserController::class, 'fetch']);
-    route::post('user', [UserController::class, 'updateProfile']);
-    route::post('logout', [UserController::class, 'logout']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('user', [UserController::class, 'fetch']);
+    Route::post('user', [UserController::class, 'updateProfile']);
+    Route::post('logout', [UserController::class, 'logout']);
 
-    route::get('transactions', [TransactionController::class, 'all']);
-    route::post('checkout', [TransactionController::class, 'checkout']);
+    Route::get('transactions', [TransactionController::class, 'all']);
+    Route::post('checkout', [TransactionController::class, 'checkout']);
 });
