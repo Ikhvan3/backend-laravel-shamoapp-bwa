@@ -18,17 +18,15 @@ class TransactionController extends Controller
         $status = $request->input('status');
 
         //ambil berdasarkan id
-        if($id){
+        if ($id) {
             $transaction = Transaction::with(['items.product'])->find($id);
 
-            if($transaction)
-            {
+            if ($transaction) {
                 return ResponseFormatter::success(
                     $transaction,
                     'Data transaksi berhasil diambil'
                 );
-            }
-            else{
+            } else {
                 return ResponseFormatter::error(
                     null,
                     'Data transaksi tidak ada',
@@ -41,11 +39,10 @@ class TransactionController extends Controller
 
         $transaction = Transaction::with(['items.product'])->where('users_id', Auth::user()->id);
 
-        if($status)
-        {
+        if ($status) {
             $transaction->where('status', $status);
         }
-        
+
         return ResponseFormatter::success(
             $transaction->paginate($limit),
             'Data list transaksi berhassil diambil'
@@ -56,21 +53,21 @@ class TransactionController extends Controller
     {
         $request->validate([
             'items' => 'required|array',
-            'items.*.id' => 'exists:products,id',
+            // 'items.*.id' => 'exists:products,id',
             'total_price' => 'required',
             'shipping_price' => 'required',
             'status' => 'required|in:PENDING,SUCCESS,CANCELLED,FAILED,SHIPPING,SHIPPED'
         ]);
 
         $transaction = Transaction::create([
-            'users_id' =>Auth::user()->id,
-            'address'=> $request->address,
-            'total_price'=> $request->total_price,
+            'users_id' => Auth::user()->id,
+            'address' => $request->address,
+            'total_price' => $request->total_price,
             'shipping_price' => $request->shipping_price,
             'status' => $request->status,
         ]);
 
-        foreach($request->items as $product) {
+        foreach ($request->items as $product) {
             TransactionItem::create([
                 'users_id' => Auth::user()->id,
                 'products_id' => $product['id'],
@@ -80,5 +77,5 @@ class TransactionController extends Controller
         }
 
         return ResponseFormatter::success($transaction->load('items.product'), 'Transaksi berhasil');
-    } 
+    }
 }
