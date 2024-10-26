@@ -9,10 +9,12 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
     <style>
@@ -105,27 +107,29 @@
         }
     </style>
 
-    @livewireStyles
-
-    <!-- Scripts -->
-    <script src="{{ mix('js/app.js') }}" defer></script>
+    <!--- Tambahkan setelah app.js --->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+
+    <!-- Styles -->
+    @livewireStyles
 </head>
 
 <body class="font-sans antialiased">
-    <x-jet-banner />
+    <x-banner />
 
     <div class="min-h-screen bg-gray-100">
         @livewire('navigation-menu')
 
         <!-- Page Heading -->
+        @if (isset($header))
         <header class="bg-white shadow">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 {{ $header }}
             </div>
         </header>
+        @endif
 
         <!-- Page Content -->
         <main>
@@ -136,7 +140,6 @@
     @stack('modals')
 
     @livewireScripts
-
     {{ $script ?? '' }}
 </body>
 
