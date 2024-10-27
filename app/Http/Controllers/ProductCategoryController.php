@@ -14,16 +14,16 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-        if(request()->ajax()){
+        if (request()->ajax()) {
             $query = ProductCategory::query();
 
             return DataTables::of($query)
-            ->addColumn('action', function ($item){
-                return '<a class="inline-block border border-gray-700 bg-gray-700 text-white rounded-md px-2 py-1 m-1 transition duration-500 ease select-none hover:bg-gray-800 focus:outline-none focus:shadow-outline" 
+                ->addColumn('action', function ($item) {
+                    return '<a class="inline-block border border-gray-700 bg-gray-700 text-white rounded-md px-2 py-1 m-1 transition duration-500 ease select-none hover:bg-gray-800 focus:outline-none focus:shadow-outline" 
                 href="' . route('dashboard.category.edit', $item->id) . '">
                 Edit
-            </a>'
-            });
+            </a>';
+                });
         }
     }
 
