@@ -75,7 +75,11 @@ class ProductCategoryController extends Controller
      */
     public function update(ProductCategoryRequest $request, ProductCategory $category)
     {
-        //
+        $data = $request->all();
+
+        $category->update($data);
+
+        return redirect()->route('dashboard.category.index')->with('success', 'Category has been updated');
     }
 
     /**
