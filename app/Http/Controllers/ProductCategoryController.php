@@ -65,7 +65,9 @@ class ProductCategoryController extends Controller
      */
     public function edit(ProductCategory $category)
     {
-        //
+        return view('pages.dashboard.category.edit', [
+            'item' => $category
+        ]);
     }
 
     /**
