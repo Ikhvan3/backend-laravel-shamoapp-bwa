@@ -23,8 +23,11 @@ class ProductCategoryController extends Controller
                 href="' . route('dashboard.category.edit', $item->id) . '">
                 Edit
             </a>';
-                });
+                })
+                ->rawColumns(['action'])
+                ->make();
         }
+        return view('pages.dashboard.category.index');
     }
 
     /**
