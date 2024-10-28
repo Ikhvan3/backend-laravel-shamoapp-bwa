@@ -24,7 +24,13 @@ class ProductCategoryController extends Controller
                style="background-color: rgb(55 65 81); color: white;"
                class="inline-block px-3 py-1 m-1 rounded-md hover:opacity-90">
                 Edit
-            </a>';
+            </a> 
+            <form class="inline-block" action="' . route('dashboard.category.destroy', $item->id) . '" method="POST">
+                        <button class="border border-red-500 bg-red-500 text-white rounded-md px-2 py-1 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" >
+                            Hapus
+                        </button>
+                            ' . method_field('delete') . csrf_field() . '
+                        </form>';
                 })
                 ->rawColumns(['action'])
                 ->make();
@@ -87,6 +93,8 @@ class ProductCategoryController extends Controller
      */
     public function destroy(ProductCategory $category)
     {
-        //
+        $category->delete();
+
+        return redirect()->route('dashboard.category.index')->with('success', 'Category has been deleted');
     }
 }
