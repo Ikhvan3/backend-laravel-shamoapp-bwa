@@ -37,7 +37,7 @@ class ProductCategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.dashboard.category.create');
     }
 
     /**
