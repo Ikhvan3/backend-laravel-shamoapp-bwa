@@ -44,7 +44,7 @@ class ProductGalleryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Product $product)
     {
         return view('pages.dashboard.gallery.create', compact('product'));
     }
@@ -52,6 +52,24 @@ class ProductGalleryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function store(ProductGalleryRequest $request, Product $product)
+    // {
+    //     $files = $request->file('files');
+
+    //     if ($request->hasFile('files')) {
+    //         foreach ($files as $file) {
+    //             $path = $file->store('public/gallery');
+
+    //             ProductGallery::create([
+    //                 'products_id' => $product->id,
+    //                 'url' => $path
+    //             ]);
+    //         }
+    //     }
+
+    //     return redirect()->route('dashboard.product.gallery.index', $product->id);
+    // }
+    // ProductGalleryController.php
     public function store(ProductGalleryRequest $request, Product $product)
     {
         $files = $request->file('files');
@@ -60,9 +78,12 @@ class ProductGalleryController extends Controller
             foreach ($files as $file) {
                 $path = $file->store('public/gallery');
 
+                // Simpan path tanpa 'public/'
+                $url = str_replace('public/', '', $path);
+
                 ProductGallery::create([
                     'products_id' => $product->id,
-                    'url' => $path
+                    'url' => $url // Simpan path relatif
                 ]);
             }
         }
