@@ -6,6 +6,7 @@ use App\Http\Requests\ProductGalleryRequest;
 use App\Models\Product;
 use App\Models\ProductGallery;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
 class ProductGalleryController extends Controller
@@ -29,8 +30,9 @@ class ProductGalleryController extends Controller
                         </form>';
                 })
                 ->editColumn('url', function ($item) {
-                    return '<img style="max-width: 150px;" src="' . $item->url . '"/>';
+                    return '<img style="max-width: 150px;" src="' . asset('storage/' . $item->url) . '"/>';
                 })
+
                 ->editColumn('is_featured', function ($item) {
                     return $item->is_featured ? 'Yes' : 'No';
                 })
@@ -76,14 +78,15 @@ class ProductGalleryController extends Controller
 
         if ($request->hasFile('files')) {
             foreach ($files as $file) {
-                $path = $file->store('public/gallery');
+                // Simpan file ke storage/app/public/gallery
+                $path = $file->store('gallery', 'public');
 
-                // Simpan path tanpa 'public/'
-                $url = str_replace('public/', '', $path);
+                // Debug: Print path yang tersimpan
+                Log::info('Saved image path: ' . $path);
 
                 ProductGallery::create([
                     'products_id' => $product->id,
-                    'url' => $url // Simpan path relatif
+                    'url' => $path
                 ]);
             }
         }

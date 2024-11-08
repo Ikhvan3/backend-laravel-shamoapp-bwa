@@ -46,3 +46,12 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         });
     });
 });
+
+// routes/web.php
+Route::get('/test-image/{filename}', function ($filename) {
+    $path = storage_path('app/public/gallery/' . $filename);
+    if (file_exists($path)) {
+        return response()->file($path);
+    }
+    return response()->json(['error' => 'File not found', 'path' => $path], 404);
+});

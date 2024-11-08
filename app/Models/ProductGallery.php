@@ -2,30 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class ProductGallery extends Model
 {
-    use HasFactory, SoftDeletes;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'products_id',
         'url',
-        'is_featured',
-
-
     ];
 
-    public function getUrlAttribute($url)
+    protected $appends = ['full_url'];
+
+    public function getFullUrlAttribute()
     {
-        return config('app.url') . Storage::url($url);
+        $url = asset('storage/' . $this->url);
+        Log::info('Generated full URL: ' . $url);
+        return $url;
     }
 }
