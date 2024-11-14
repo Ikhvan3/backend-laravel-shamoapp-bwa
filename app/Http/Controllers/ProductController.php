@@ -51,6 +51,7 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $categories = ProductCategory::all(); // Retrieve all categories
         //$categories = ProductCategory::all();
         return view('pages.dashboard.product.create', compact('categories'));
     }
